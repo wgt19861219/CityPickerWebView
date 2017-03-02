@@ -1,49 +1,41 @@
 package com.example.wgt1986.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+import me.leefeng.citypicker.CityPickerActivity;
 
-import me.leefeng.citypicker.CityPicker;
-import me.leefeng.citypicker.CityPickerListener;
-
-public class MainActivity extends AppCompatActivity implements CityPickerListener {
-
-    private TextView textView;
-    private CityPicker cityPicker;
+public class MainActivity extends AppCompatActivity {
+    private Button CityPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cityPicker = new CityPicker(MainActivity.this, this);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+
+        initUI();
+        initListener();
+    }
+
+    /**
+     * 声明控件
+     */
+    private void initUI() {
+        CityPicker = (Button) findViewById(R.id.btn_CityPicker);
+    }
+
+    /**
+     * 控件监听
+     */
+    private void initListener() {
+        CityPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cityPicker.show();
-            }
-        });
-        textView = (TextView) findViewById(R.id.textView);
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityPicker.close();
+                startActivity(new Intent(MainActivity.this, CityPickerActivity.class));
             }
         });
     }
 
-    @Override
-    public void getCity(final String name) {
-        textView.setText(name);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (cityPicker.isShow()){
-            cityPicker.close();
-            return;
-        }
-        super.onBackPressed();
-    }
 }
